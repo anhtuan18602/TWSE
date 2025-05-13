@@ -113,9 +113,10 @@ if __name__ == "__main__":
     
     df = pd.DataFrame(data,columns = headers)
     
-    df = df.dropna(subset=['Effective Date of Adjustment', 'Effective Date of Resumption'])
-    
-    df.to_csv("Adjustment of Margin Purchase Leverage Ratio and Short Sale Margin.csv",index=False)
+    df_clean= df[~((df['Effective Date of Adjustment'] == '') 
+                   & (df['Effective Date of Resumption'] == ''))]
+    df_clean.to_csv("Adjustment of Margin Purchase Leverage Ratio and Short Sale Margin.csv",
+                    index=False)
     
     
     driver.quit()
