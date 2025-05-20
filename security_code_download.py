@@ -51,7 +51,7 @@ def get_securities():
         data.append([cell.text for cell in cells])
     
     df = pd.DataFrame(data, columns=headers)
-    
+    os.makedirs("result",exist_ok=True)
     df.to_csv("result/Security Code.csv")
 
     driver.quit()

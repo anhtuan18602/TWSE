@@ -9,7 +9,19 @@ from selenium.webdriver.support.ui import Select
 import pandas as pd
 import os
 import time
+import re
 
+pattern = r"='([^']*)'|([^=']+)"
+
+def clean_security(item):
+    if isinstance(item, str):
+        match = re.search(pattern, item)
+        if match:
+            value = match.group(1) if match.group(1) else match.group(2)
+            value = value.strip("'\"").strip()
+            return value
+    return str(item)
+    
 def get_date_list(start_date, end_date):
     date_list = []
     current_date = start_date
@@ -154,6 +166,7 @@ def join_files(folder, file_prefix, start_date, end_date, skip_rows, skip_footer
             except:
                 continue
     # Save file
+    os.makedirs("result",exist_ok=True)
     data.to_csv(f"result/{folder}.csv")
     return data
     
